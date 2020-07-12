@@ -2,12 +2,18 @@
 
 This is a basic API made using streamlit to analyze time series.
 
+<p align="center">
+<img src="https://github.com/Alro10/streamlit-time-series/blob/master/src/tool.png" alt="alt text" width="80%" height="60%">
+</p>
+
 ## Quick run
 
 - ```virtualenv venv -p python3.7```
 
 - ```source venv/bin/activate```
 
-- ```pip install -r requierements.txt```
+- ```pip install -r requirements.txt```
+
+Go to src directory
 
 - ```streamlit run app.py```
