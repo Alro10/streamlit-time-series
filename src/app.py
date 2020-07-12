@@ -32,6 +32,19 @@ def tsplot(y, lags=None, figsize=(20, 12), style='bmh'):
         smt.graphics.plot_pacf(y, lags=lags, ax=pacf_ax)
         plt.tight_layout()
 
+def null_values(df):
+    null_test = (df.isnull().sum(axis = 0)/len(df)).sort_values(ascending=False).index
+    null_data_test = pd.concat([
+        df.isnull().sum(axis = 0),
+        (df.isnull().sum(axis = 0)/len(df)).sort_values(ascending=False),
+        df.loc[:, df.columns.isin(list(null_test))].dtypes], axis=1)
+    null_data_test = null_data_test.rename(columns={0: '# null', 
+                                        1: '% null', 
+                                        2: 'type'}).sort_values(ascending=False, by = '% null')
+    null_data_test = null_data_test[null_data_test["# null"]!=0]
+    
+    return null_data_test
+
 def main():
     # As an example, let's look at real mobile game data. Specifically, we will look into ads watched per hour and in-game currency spend per day:
     # ads = pd.read_csv('ads.csv', index_col=['Time'], parse_dates=['Time'])
@@ -62,6 +75,11 @@ def main():
                 st.write(data.shape[0])
             else:
                 st.write(data.shape)
+        # Check null values in dataset
+        if st.checkbox("Check null values"):
+            nvalues = null_values(data)
+            st.write(nvalues)
+        # Plot time series, ACF and PACF
         if st.checkbox("Select column as time series"):
             columns = data.columns.tolist()
             selected = st.multiselect("Choose", columns)
