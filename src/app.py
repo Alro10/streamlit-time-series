@@ -10,8 +10,9 @@ import matplotlib.pyplot as plt
 import warnings
 warnings.filterwarnings('ignore')
 
-st.title('Time Series Analysis')
+st.title('Time Series - ML')
 
+@st.cache
 def tsplot(y, lags=None, figsize=(20, 12), style='bmh'):
     """
         Plot time series, its ACF and PACF
@@ -45,11 +46,17 @@ def null_values(df):
     
     return null_data_test
 
+def types(df):
+    return pd.DataFrame(df.dtypes, columns=['Type'])
+
 def main():
-    # As an example, let's look at real mobile game data. Specifically, we will look into ads watched per hour and in-game currency spend per day:
-    # ads = pd.read_csv('ads.csv', index_col=['Time'], parse_dates=['Time'])
+    st.sidebar.title("What to do")
+    activities = ["Exploratory Data Analysis", "Plotting and Visualization", "Building Model", "About"]
+    choice = st.sidebar.selectbox("Select Activity", activities)
+    # Upload file
     uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
     # Add a slider to the sidebar:
+    st.sidebar.markdown("# Lang")
     x = st.sidebar.slider(
         'Select a lang',
         50, 60
@@ -64,6 +71,9 @@ def main():
         # Show columns
         if st.checkbox("Columns"):
             st.write(data.columns)
+        # Data types
+        if st.checkbox("Column types"):
+            st.write(types(data))
         # Show Shape
         if st.checkbox("Shape of Dataset"):
             data_dim = st.radio("Show by", ("Rows", "Columns", "Shape"))
@@ -79,6 +89,10 @@ def main():
         if st.checkbox("Check null values"):
             nvalues = null_values(data)
             st.write(nvalues)
+        # Show Data summary
+        if st.checkbox("Show Data Summary"):
+            st.text("Datatypes Summary")
+            st.write(data.describe())
         # Plot time series, ACF and PACF
         if st.checkbox("Select column as time series"):
             columns = data.columns.tolist()
