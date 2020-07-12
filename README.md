@@ -3,7 +3,7 @@
 This is a basic API made using streamlit to analyze time series.
 
 <p align="center">
-<img src="https://github.com/Alro10/streamlit-time-series/blob/master/src/tool.png" alt="alt text" width="80%" height="60%">
+<img src="https://github.com/Alro10/streamlit-time-series/blob/master/src/tool.png" alt="alt text" width="90%" height="90%">
 </p>
 
 ## Quick run
