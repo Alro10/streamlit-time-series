@@ -17,3 +17,9 @@ This is a basic API made using streamlit to analyze time series.
 Go to src directory
 
 - ```streamlit run app.py```
+
+## Docker
+
+- ```docker build -t streamlit-ts-ml:0.1.0 -f Dockerfile .```
+
+- ```docker run -p 8501:8501 streamlit-ts-ml:0.1.0```
