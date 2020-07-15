@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streamlit-app
+  labels:
+    app: streamlit-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: streamlit-app
+  template:
+    metadata:
+      name: streamlit-app
+      labels:
+        app: streamlit-app
+    spec:
+      containers:
+        - name: streamlit-app
+          image: $image-name
+          ports:
+            - containerPort: 5051
+          resources:
+            requests:
+              cpu: 500m
+              memory: 128Mi
+            limits:
+              cpu: "2"
+              memory: 512Mi
+          env:
+            - name: DEBUG_MODE
+              value: "1"
+      imagePullSecrets:
+        - name: $image-name
