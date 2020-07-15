@@ -23,3 +23,11 @@ Go to src directory
 - ```docker build -t streamlit-ts-ml:0.1.0 -f Dockerfile .```
 
 - ```docker run -p 8501:8501 streamlit-ts-ml:0.1.0```
+
+Then stop that process with the following command.
+
+```shell
+$ docker kill <weird_name>
+<weird_name>
+$
+```
