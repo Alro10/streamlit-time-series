@@ -6,3 +6,5 @@ streamlit
 statsmodels
 matplotlib
 seaborn
+sktime
+pmdarima
