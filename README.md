@@ -24,7 +24,7 @@ Go to src directory
 
 - ```docker run -p 8501:8501 streamlit-ts-ml:0.1.0```
 
-Then stop that process with the following command.
+Then stop the process with the following command.
 
 ```shell
 $ docker kill <weird_name>
