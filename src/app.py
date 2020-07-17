@@ -68,18 +68,27 @@ def main():
     st.sidebar.title("What to do")
     activities = ["Exploratory Data Analysis", "Plotting and Visualization", "Building Model", "About"]
     choice = st.sidebar.selectbox("Select Activity", activities)
+    # Add a slider to the sidebar:
+    st.sidebar.markdown("# Lang")
+    x = st.sidebar.slider(
+        'Select a lang for ACF and PACF analysis',
+        50, 60
+    )
+    # Add a slider to the sidebar:
+    st.sidebar.markdown("# Seasonal")
+    s = st.sidebar.slider(
+        'Select a seasonal parameter from previous ACF and PACF analysis',
+        24, 48
+    )
+    # cloud logo
+    st.sidebar.title("Built on:")
+    st.sidebar.image("src/ibmcloud_logo.png", width = 200)
     # Upload file
     uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
 
     if uploaded_file is not None and choice == "Exploratory Data Analysis":
         data = pd.read_csv(uploaded_file)
         st.subheader(choice)
-        # Add a slider to the sidebar:
-        st.sidebar.markdown("# Lang")
-        x = st.sidebar.slider(
-            'Select a lang',
-            50, 60
-        )
         # Show dataset
         if st.checkbox("Show Dataset"):
             rows = st.number_input("Number of rows", 5, len(data))
@@ -123,7 +132,7 @@ def main():
         data = pd.read_csv(uploaded_file)
         df = data.copy()
         all_columns = df.columns.tolist()
-        type_of_plot = st.selectbox("Select Type of Plot", ["area", "line", "scatter", "pie", "bar", "correlation"]) 
+        type_of_plot = st.selectbox("Select Type of Plot", ["area", "line", "scatter", "pie", "bar", "correlation", "distribution"]) 
         
         if type_of_plot=="line":
             select_columns_to_plot = st.multiselect("Select columns to plot", all_columns)
@@ -156,14 +165,13 @@ def main():
             st.write(sns.scatterplot(x=scatter_x, y=scatter_y, data = df))
             st.pyplot()
 
-    elif choice == "Building Model":
+        elif type_of_plot=="distribution":
+            select_columns_to_plot = st.multiselect("Select columns to plot", all_columns)
+            st.write(sns.distplot(df[select_columns_to_plot]))
+            st.pyplot()
+
+    elif uploaded_file is not None and choice == "Building Model":
         st.subheader(choice)
-         # Add a slider to the sidebar:
-        st.sidebar.markdown("# Seasonal")
-        s = st.sidebar.slider(
-            'Select a s',
-            24, 48
-        )
         data = pd.read_csv(uploaded_file)
         df = data.copy()
         st.write("Select the columns to use for training")
@@ -172,7 +180,7 @@ def main():
         new_df = df[selected_column]
         st.write(new_df)
 
-        if st.button("Train/Test Split"):
+        if st.checkbox("Train/Test Split"):
             y_train, y_test = temporal_train_test_split(new_df.T.iloc[0])
             st.text("Train Shape")
             st.write(y_train.shape)
@@ -182,11 +190,15 @@ def main():
             st.pyplot()
             
         if st.button("Training a Model"):
-            y_train, y_test = temporal_train_test_split(new_df.T.iloc[0])
             model_selection = st.selectbox("Model to train", ["AutoArima", "LSTM", "MLP", "RNN"])
             if model_selection == "AutoArima":
+                y_train, y_test = temporal_train_test_split(new_df.T.iloc[0])
                 forecasting_autoarima(y_train, y_test, s)
+
+    elif choice == "About":
+        st.title("About")
+        st.write("The app developed by Alexander Robles.")
+        st.write("Stack: Python, Streamlit, Docker, Kubernetes")
 
 if __name__ == "__main__":
     main()
-    
