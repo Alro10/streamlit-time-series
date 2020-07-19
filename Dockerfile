@@ -1,5 +1,7 @@
 FROM python:3.7
 
+RUN apt-get update && apt-get upgrade -y
+
 WORKDIR /usr/src/app/streamlit-time-series
 
 # Exposing default port for streamlit

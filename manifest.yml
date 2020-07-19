@@ -1,0 +1,7 @@
+applications:
+    - name: streamlit-time-series
+      path: ./src  
+      random-route: true
+      memory: 2G
+  
+  

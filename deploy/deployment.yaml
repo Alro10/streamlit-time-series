@@ -16,19 +16,16 @@ spec:
         app: streamlit-app
     spec:
       containers:
-        - name: streamlit-app
-          image: $image-name
+        - name: streamlit-ts-ml
+          image: "us.icr.io/ml-api/streamlit-ts-ml:0.2.0"
           ports:
             - containerPort: 5051
           resources:
-            requests:
-              cpu: 500m
-              memory: 128Mi
             limits:
-              cpu: "2"
-              memory: 512Mi
+              cpu: 0.3
+              memory: 512M
           env:
             - name: DEBUG_MODE
               value: "1"
       imagePullSecrets:
-        - name: $image-name
+        - name: default-icr-io
